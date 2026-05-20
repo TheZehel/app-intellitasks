@@ -229,7 +229,7 @@ export default function AuthNavbar() {
       </nav>
 
       {isModalOpen ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 px-4 py-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 px-4 py-6">
           <div
             aria-modal="true"
             className="w-full max-w-md rounded-lg border border-outline-variant bg-surface-container p-5 text-on-surface shadow-app-modal"
@@ -328,7 +328,7 @@ export default function AuthNavbar() {
               ) : null}
 
               {error ? (
-                <div className="rounded-md border border-red-400/30 bg-red-950/40 px-4 py-3 text-sm font-medium text-red-200">
+                <div className="rounded-md border border-primary/30 bg-surface-container-high px-4 py-3 text-sm font-medium text-on-surface">
                   {error}
                 </div>
               ) : null}

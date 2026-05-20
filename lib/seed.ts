@@ -5,10 +5,10 @@ import { InMemoryTaskRepository } from "@/lib/repositories/task-repository";
 
 export function createTaskController() {
   const categories = [
-    new Category("study", "Estudos", "#2563eb"),
-    new Category("work", "Trabalho", "#059669"),
-    new Category("personal", "Pessoal", "#d97706"),
-    new Category("urgent", "Urgente", "#dc2626"),
+    new Category("study", "Estudos", "#028090"),
+    new Category("work", "Trabalho", "#02C39A"),
+    new Category("personal", "Pessoal", "#5AB8B6"),
+    new Category("urgent", "Urgente", "#0B5F6F"),
   ];
 
   const tasks = [

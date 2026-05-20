@@ -29,7 +29,7 @@ const statusOrder: TaskStatus[] = ["pending", "in_progress", "done"];
 const statusTone: Record<TaskStatus, string> = {
   pending: "bg-tertiary/15 text-tertiary",
   in_progress: "bg-secondary/15 text-secondary",
-  done: "bg-emerald-400/15 text-emerald-300",
+  done: "bg-primary/15 text-primary",
 };
 
 export default function IntelliTasksWorkspace({
@@ -150,7 +150,7 @@ export default function IntelliTasksWorkspace({
               <Link
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
                   isActive
-                    ? "border-l-4 border-primary bg-secondary-container text-[#00344e]"
+                    ? "border-l-4 border-primary bg-secondary-container text-on-primary-container"
                     : "text-on-surface-variant hover:bg-surface-variant hover:text-on-surface"
                 }`}
                 href={item.href}
@@ -174,7 +174,7 @@ export default function IntelliTasksWorkspace({
       <div className="md:pl-64">
         <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           {error ? (
-            <div className="mb-4 rounded-lg border border-red-400/30 bg-red-950/40 px-4 py-3 text-sm font-semibold text-red-200">
+            <div className="mb-4 rounded-lg border border-primary/30 bg-surface-container-high px-4 py-3 text-sm font-semibold text-on-surface">
               {error}
             </div>
           ) : null}
@@ -521,7 +521,7 @@ function TaskModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 px-4 py-10 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-background/70 px-4 py-10 backdrop-blur-sm">
       <div className="w-full max-w-3xl rounded-lg border border-outline-variant bg-surface-container text-on-surface shadow-app-modal">
         <div className="flex items-center justify-between border-b border-outline-variant px-5 py-3">
           <div className="text-xs font-semibold uppercase tracking-wide text-on-surface-variant">
@@ -602,7 +602,7 @@ function TaskModal({
           </label>
 
           {error ? (
-            <div className="mt-4 rounded-md border border-red-400/30 bg-red-950/40 px-4 py-3 text-sm font-medium text-red-200">
+            <div className="mt-4 rounded-md border border-primary/30 bg-surface-container-high px-4 py-3 text-sm font-medium text-on-surface">
               {error}
             </div>
           ) : null}
@@ -669,7 +669,7 @@ function MetricCard({
     primary: "text-primary",
     secondary: "text-secondary",
     tertiary: "text-tertiary",
-    success: "text-emerald-300",
+    success: "text-primary",
   }[tone];
 
   return (

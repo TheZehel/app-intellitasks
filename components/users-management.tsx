@@ -64,7 +64,7 @@ export default function UsersManagement({
       </header>
 
       {error ? (
-        <div className="rounded-lg border border-red-400/30 bg-red-950/40 px-4 py-3 text-sm font-semibold text-red-200">
+        <div className="rounded-lg border border-primary/30 bg-surface-container-high px-4 py-3 text-sm font-semibold text-on-surface">
           {error}
         </div>
       ) : null}
