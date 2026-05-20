@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { apiFetch } from "@/lib/client-api";
 import type { AuthUserDTO } from "@/lib/domain/types";
 
 type ApiResponse = {
@@ -37,7 +38,7 @@ export default function ProfileSettings({ initialUser }: { initialUser: AuthUser
     setProfileMessage("");
 
     try {
-      const response = await fetch("/api/profile", {
+      const response = await apiFetch("/api/profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +69,7 @@ export default function ProfileSettings({ initialUser }: { initialUser: AuthUser
     setPasswordMessage("");
 
     try {
-      const response = await fetch("/api/profile/password", {
+      const response = await apiFetch("/api/profile/password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +92,7 @@ export default function ProfileSettings({ initialUser }: { initialUser: AuthUser
   }
 
   async function handleLogoutAll() {
-    await fetch("/api/auth/logout-all", { method: "POST" });
+    await apiFetch("/api/auth/logout-all", { method: "POST" });
     window.location.href = "/";
   }
 

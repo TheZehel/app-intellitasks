@@ -1,6 +1,6 @@
 # IntelliTasks
 
-Sistema de gestao de tarefas desenvolvido com Next.js, TypeScript, Tailwind CSS e Prisma.
+Sistema de gestao de tarefas desenvolvido com Next.js, TypeScript, Tailwind CSS, Prisma e um backend Java MVC opcional no mesmo repositorio.
 
 ## Objetivo
 
@@ -13,6 +13,7 @@ O projeto representa uma TO-DO list com categorias, filtros, status e resumo de 
 - Controller: `PrismaTaskController`, responsavel por listar, criar, editar, excluir, filtrar e concluir tarefas.
 - Repository: `PrismaTaskRepository`, responsavel pela persistencia dos dados via Prisma.
 - API: rotas do Next em `app/api`, que conectam a View ao Controller.
+- Backend Java: pasta `backend/`, com controllers, services, repositories e models em Java 17.
 
 Conceitos de POO aplicados:
 
@@ -80,6 +81,28 @@ Depois acesse:
 ```text
 http://localhost:3000
 ```
+
+## Como executar o backend Java MVC
+
+O backend Java fica em `backend/` e usa apenas Java 17, sem Maven ou Gradle.
+
+```bash
+npm run dev:backend
+```
+
+Ele sobe em:
+
+```text
+http://localhost:8080
+```
+
+Para fazer os componentes client-side do Next chamarem o backend Java, adicione no `.env`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL="http://localhost:8080"
+```
+
+Sem essa variavel, o frontend continua chamando as API Routes atuais do Next em `/api`.
 
 ## Como visualizar o banco
 

@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { apiFetch } from "@/lib/client-api";
 import type { UserRole } from "@/lib/domain/types";
 
 type AuthUser = {
@@ -53,7 +54,7 @@ export default function AuthNavbar() {
   useEffect(() => {
     async function loadUser() {
       try {
-        const response = await fetch("/api/auth/me", {
+        const response = await apiFetch("/api/auth/me", {
           cache: "no-store",
         });
         const data = (await response.json()) as AuthResponse;
@@ -97,7 +98,7 @@ export default function AuthNavbar() {
     setError("");
 
     try {
-      const response = await fetch(mode === "login" ? "/api/auth/login" : "/api/auth/register", {
+      const response = await apiFetch(mode === "login" ? "/api/auth/login" : "/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -120,7 +121,7 @@ export default function AuthNavbar() {
   }
 
   async function handleLogout() {
-    await fetch("/api/auth/logout", {
+    await apiFetch("/api/auth/logout", {
       method: "POST",
     }).catch(() => undefined);
     setUser(null);

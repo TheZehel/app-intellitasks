@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import { apiFetch } from "@/lib/client-api";
 import type { CategoryDTO, DashboardSummary, TaskDTO, TaskFormInput, TaskStatus } from "@/lib/domain/types";
 
 const statusLabels: Record<TaskStatus, string> = {
@@ -43,7 +44,7 @@ export default function TaskDashboard() {
         categoryId: categoryFilter,
         status: statusFilter,
       });
-      const response = await fetch(`/api/tasks?${params.toString()}`);
+      const response = await apiFetch(`/api/tasks?${params.toString()}`);
       const data = (await response.json()) as {
         tasks: TaskDTO[];
         summary: DashboardSummary;
@@ -66,7 +67,7 @@ export default function TaskDashboard() {
   useEffect(() => {
     async function loadCategories() {
       try {
-        const response = await fetch("/api/categories");
+        const response = await apiFetch("/api/categories");
         const data = (await response.json()) as {
           categories: CategoryDTO[];
           message?: string;
@@ -113,7 +114,7 @@ export default function TaskDashboard() {
     setError("");
 
     try {
-      const response = await fetch(editingId ? `/api/tasks/${editingId}` : "/api/tasks", {
+      const response = await apiFetch(editingId ? `/api/tasks/${editingId}` : "/api/tasks", {
         method: editingId ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +153,7 @@ export default function TaskDashboard() {
     setError("");
 
     try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await apiFetch(`/api/tasks/${taskId}`, {
         method: "DELETE",
       });
       const data = (await response.json()) as {
@@ -177,7 +178,7 @@ export default function TaskDashboard() {
     setError("");
 
     try {
-      const response = await fetch(`/api/tasks/${taskId}/toggle`, {
+      const response = await apiFetch(`/api/tasks/${taskId}/toggle`, {
         method: "PATCH",
       });
       const data = (await response.json()) as {

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { apiFetch, isExternalApiEnabled } from "@/lib/client-api";
 import type { CategoryDTO, TaskDTO, TaskFormInput, TaskStatus } from "@/lib/domain/types";
 import { formatDate, getCategory, getTasksByStatus, statusLabels, type IntelliTasksData } from "@/lib/intellitasks-model";
 
@@ -40,6 +41,7 @@ export default function IntelliTasksWorkspace({
   view: WorkspaceView;
 }) {
   const [tasks, setTasks] = useState(initialData.tasks);
+  const [categories, setCategories] = useState(initialData.categories);
   const [modal, setModal] = useState<ModalState | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -52,8 +54,40 @@ export default function IntelliTasksWorkspace({
       done: tasks.filter((task) => task.status === "done").length,
     };
 
-    return { ...initialData, tasks, summary };
-  }, [initialData, tasks]);
+    return { ...initialData, categories, tasks, summary };
+  }, [categories, initialData, tasks]);
+
+  useEffect(() => {
+    if (!isExternalApiEnabled) {
+      return;
+    }
+
+    async function loadExternalData() {
+      try {
+        const [tasksResponse, categoriesResponse] = await Promise.all([
+          apiFetch("/api/tasks?categoryId=all&status=all", { cache: "no-store" }),
+          apiFetch("/api/categories", { cache: "no-store" }),
+        ]);
+        const tasksPayload = (await tasksResponse.json()) as { tasks?: TaskDTO[]; message?: string };
+        const categoriesPayload = (await categoriesResponse.json()) as { categories?: CategoryDTO[]; message?: string };
+
+        if (!tasksResponse.ok || !tasksPayload.tasks) {
+          throw new Error(tasksPayload.message ?? "Nao foi possivel carregar as tarefas do backend Java.");
+        }
+
+        if (!categoriesResponse.ok || !categoriesPayload.categories) {
+          throw new Error(categoriesPayload.message ?? "Nao foi possivel carregar as categorias do backend Java.");
+        }
+
+        setTasks(tasksPayload.tasks);
+        setCategories(categoriesPayload.categories);
+      } catch (requestError) {
+        setError(requestError instanceof Error ? requestError.message : "Nao foi possivel carregar o backend Java.");
+      }
+    }
+
+    void loadExternalData();
+  }, []);
 
   function openNewTask() {
     setError("");
@@ -67,7 +101,7 @@ export default function IntelliTasksWorkspace({
 
   async function saveTask(input: TaskFormInput) {
     const editingTask = modal?.mode === "edit" ? modal.task : null;
-    const response = await fetch(editingTask ? `/api/tasks/${editingTask.id}` : "/api/tasks", {
+    const response = await apiFetch(editingTask ? `/api/tasks/${editingTask.id}` : "/api/tasks", {
       method: editingTask ? "PUT" : "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +133,7 @@ export default function IntelliTasksWorkspace({
     setTasks((current) => current.map((item) => (item.id === taskId ? { ...item, status } : item)));
 
     try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await apiFetch(`/api/tasks/${taskId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +235,7 @@ export default function IntelliTasksWorkspace({
 
       {modal ? (
         <TaskModal
-          categories={initialData.categories}
+          categories={categories}
           modal={modal}
           onClose={() => setModal(null)}
           onSave={saveTask}
