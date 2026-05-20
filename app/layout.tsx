@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AuthNavbar from "@/components/auth-navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <AuthNavbar />
+        {children}
+      </body>
     </html>
   );
 }
