@@ -13,20 +13,33 @@ import { parseRegisterInput } from "@/lib/validation/auth-input";
 export async function POST(request: Request) {
   try {
     const input = parseRegisterInput(await request.json());
+    const userCount = await prisma.user.count();
     const user = await prisma.user.create({
       data: {
         name: input.name,
         email: normalizeEmail(input.email),
         passwordHash: hashPassword(input.password),
+        role: userCount === 0 ? "admin" : "member",
       },
       select: {
         id: true,
         name: true,
         email: true,
+        role: true,
+        isActive: true,
+        createdAt: true,
       },
     });
     const session = await createSession(user.id);
-    const response = NextResponse.json({ user }, { status: 201 });
+    const response = NextResponse.json(
+      {
+        user: {
+          ...user,
+          createdAt: user.createdAt.toISOString(),
+        },
+      },
+      { status: 201 },
+    );
 
     response.cookies.set(sessionCookieName, session.token, getSessionCookieOptions(session.expiresAt));
 

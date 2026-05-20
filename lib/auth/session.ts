@@ -1,16 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import type { AuthUserDTO } from "@/lib/domain/types";
 
 export const sessionCookieName = "intellitasks_session";
 
 const sessionMaxAgeSeconds = 60 * 60 * 24 * 7;
 
-export type AuthUser = {
-  id: string;
-  name: string;
-  email: string;
-};
+export type AuthUser = AuthUserDTO;
 
 export function normalizeEmail(email: string) {
   return email.trim().toLowerCase();
@@ -55,6 +52,31 @@ export async function createSession(userId: string) {
   return { token, expiresAt };
 }
 
+async function ensureFirstAdmin(userId: string) {
+  const admin = await prisma.user.findFirst({
+    where: {
+      role: "admin",
+      isActive: true,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (admin) {
+    return null;
+  }
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: { role: "admin", isActive: true },
+    select: {
+      role: true,
+      isActive: true,
+    },
+  });
+}
+
 export async function getCurrentUserFromToken(token?: string): Promise<AuthUser | null> {
   if (!token) {
     return null;
@@ -68,6 +90,9 @@ export async function getCurrentUserFromToken(token?: string): Promise<AuthUser 
           id: true,
           name: true,
           email: true,
+          role: true,
+          isActive: true,
+          createdAt: true,
         },
       },
     },
@@ -82,7 +107,19 @@ export async function getCurrentUserFromToken(token?: string): Promise<AuthUser 
     return null;
   }
 
-  return session.user;
+  if (!session.user.isActive) {
+    await prisma.session.delete({ where: { token } }).catch(() => undefined);
+    return null;
+  }
+
+  const promotedUser = await ensureFirstAdmin(session.user.id);
+
+  return {
+    ...session.user,
+    role: promotedUser?.role ?? session.user.role,
+    isActive: promotedUser?.isActive ?? session.user.isActive,
+    createdAt: session.user.createdAt.toISOString(),
+  };
 }
 
 export async function getCurrentUser() {
@@ -98,4 +135,19 @@ export async function deleteSession(token?: string) {
   }
 
   await prisma.session.delete({ where: { token } }).catch(() => undefined);
+}
+
+export async function deleteUserSessions(userId: string, exceptToken?: string) {
+  const where = exceptToken
+    ? {
+        userId,
+        token: { not: exceptToken },
+      }
+    : {
+        userId,
+      };
+
+  await prisma.session.deleteMany({
+    where,
+  });
 }

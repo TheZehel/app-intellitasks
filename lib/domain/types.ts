@@ -28,3 +28,24 @@ export type DashboardSummary = {
   pending: number;
   inProgress: number;
 };
+
+export type UserRole = "admin" | "manager" | "member";
+
+export type AuthUserDTO = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt?: string;
+};
+
+export type ManagedUserDTO = {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
