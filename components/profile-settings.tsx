@@ -231,8 +231,8 @@ function PasswordField({
 function Alert({ message, tone }: { message: string; tone: "success" | "error" }) {
   const className =
     tone === "success"
-      ? "border-emerald-400/30 bg-emerald-950/40 text-emerald-200"
-      : "border-red-400/30 bg-red-950/40 text-red-200";
+      ? "border-primary/30 bg-surface-container-high text-primary"
+      : "border-secondary/30 bg-surface-container-high text-on-surface";
 
   return <div className={`mt-4 rounded-md border px-4 py-3 text-sm font-medium ${className}`}>{message}</div>;
 }

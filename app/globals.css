@@ -12,8 +12,8 @@
 
 body {
   margin: 0;
-  background: #13121b;
-  color: #e4e1ee;
+  background: #021b2f;
+  color: #e8fffa;
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
@@ -30,6 +30,6 @@ a {
 }
 
 .app-card {
-  background: rgba(42, 41, 51, 0.72);
-  border: 1px solid rgba(70, 69, 85, 0.78);
+  background: rgba(4, 50, 75, 0.78);
+  border: 1px solid rgba(11, 95, 111, 0.78);
 }

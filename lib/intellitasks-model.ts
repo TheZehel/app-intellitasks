@@ -21,7 +21,7 @@ export function getCategory(categories: CategoryDTO[], categoryId: string) {
   return categories.find((category) => category.id === categoryId) ?? {
     id: "",
     name: "Sem categoria",
-    color: "#918fa1",
+    color: "#5AB8B6",
   };
 }
 

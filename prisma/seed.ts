@@ -10,10 +10,10 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const categories = [
-    { id: "study", name: "Estudos", color: "#2563eb" },
-    { id: "work", name: "Trabalho", color: "#059669" },
-    { id: "personal", name: "Pessoal", color: "#d97706" },
-    { id: "urgent", name: "Urgente", color: "#dc2626" },
+    { id: "study", name: "Estudos", color: "#028090" },
+    { id: "work", name: "Trabalho", color: "#02C39A" },
+    { id: "personal", name: "Pessoal", color: "#5AB8B6" },
+    { id: "urgent", name: "Urgente", color: "#0B5F6F" },
   ];
 
   for (const category of categories) {
