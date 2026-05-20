@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiFetch } from "@/lib/client-api";
 import type { ManagedUserDTO, UserRole } from "@/lib/domain/types";
 
 type ApiResponse = {
@@ -32,7 +33,7 @@ export default function UsersManagement({
     setError("");
 
     try {
-      const response = await fetch(`/api/users/${user.id}`, {
+      const response = await apiFetch(`/api/users/${user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -11,7 +11,8 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:setup": "prisma generate && prisma db push && npm run db:seed",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "dev:backend": "./backend/scripts/dev.sh"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",
