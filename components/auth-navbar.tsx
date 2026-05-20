@@ -3,11 +3,14 @@
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { UserRole } from "@/lib/domain/types";
 
 type AuthUser = {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
+  isActive: boolean;
 };
 
 type AuthMode = "login" | "register";
@@ -30,6 +33,12 @@ const navItems = [
   { href: "/kanban", label: "Kanban" },
   { href: "/calendario", label: "Calendario" },
 ];
+
+const roleLabels: Record<UserRole, string> = {
+  admin: "Admin",
+  manager: "Gestor",
+  member: "Membro",
+};
 
 export default function AuthNavbar() {
   const pathname = usePathname();
@@ -58,6 +67,9 @@ export default function AuthNavbar() {
     }
 
     void loadUser();
+    window.addEventListener("auth-user-updated", loadUser);
+
+    return () => window.removeEventListener("auth-user-updated", loadUser);
   }, []);
 
   function openModal(nextMode: AuthMode) {
@@ -144,18 +156,54 @@ export default function AuthNavbar() {
           </div>
 
           {user ? (
-            <div className="flex items-center gap-3">
-              <div className="hidden text-right sm:block">
-                <p className="text-sm font-semibold text-on-surface">{user.name}</p>
-                <p className="text-xs text-on-surface-variant">{user.email}</p>
-              </div>
+            <div className="group relative flex items-center">
               <button
-                className="rounded-md border border-outline-variant px-3 py-2 text-sm font-semibold text-on-surface-variant transition hover:bg-surface-variant hover:text-on-surface"
+                className="flex items-center gap-3 rounded-md border border-transparent px-3 py-2 text-left transition hover:border-outline-variant hover:bg-surface-variant focus:border-outline-variant focus:bg-surface-variant focus:outline-none"
                 type="button"
-                onClick={handleLogout}
               >
-                Sair
+                <span className="hidden text-right sm:block">
+                  <span className="block text-sm font-semibold text-on-surface">{user.name}</span>
+                  <span className="block text-xs text-on-surface-variant">
+                    {roleLabels[user.role]} - {user.email}
+                  </span>
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary-container text-xs font-bold text-on-primary-container">
+                  {user.name.slice(0, 2).toUpperCase()}
+                </span>
+                <span className="text-xs text-on-surface-variant transition group-hover:rotate-180">v</span>
               </button>
+
+              <div
+                className="invisible absolute right-0 top-full z-50 w-56 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+                role="menu"
+              >
+                <div className="rounded-lg border border-outline-variant bg-surface-container p-2 shadow-app-modal">
+                  <Link
+                    className="block rounded-md px-3 py-2 text-sm font-semibold text-on-surface-variant transition hover:bg-surface-variant hover:text-on-surface"
+                    href="/perfil"
+                    role="menuitem"
+                  >
+                    Perfil
+                  </Link>
+                  {user.role === "admin" ? (
+                    <Link
+                      className="block rounded-md px-3 py-2 text-sm font-semibold text-on-surface-variant transition hover:bg-surface-variant hover:text-on-surface"
+                      href="/usuarios"
+                      role="menuitem"
+                    >
+                      Usuarios
+                    </Link>
+                  ) : null}
+                  <button
+                    className="mt-1 block w-full rounded-md border-t border-outline-variant px-3 py-2 text-left text-sm font-semibold text-on-surface-variant transition hover:bg-surface-variant hover:text-on-surface"
+                    type="button"
+                    onClick={handleLogout}
+                    role="menuitem"
+                  >
+                    Sair
+                  </button>
+                </div>
+              </div>
             </div>
           ) : (
             <div className="flex items-center gap-2">

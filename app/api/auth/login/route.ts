@@ -22,12 +22,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Email ou senha invalidos." }, { status: 401 });
     }
 
+    if (!user.isActive) {
+      return NextResponse.json({ message: "Esta conta esta inativa." }, { status: 403 });
+    }
+
     const session = await createSession(user.id);
     const response = NextResponse.json({
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        createdAt: user.createdAt.toISOString(),
       },
     });
 
