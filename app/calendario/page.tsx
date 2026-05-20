@@ -3,8 +3,8 @@ import { getIntelliTasksData } from "@/lib/intellitasks-data";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+export default async function CalendarioPage() {
   const data = await getIntelliTasksData();
 
-  return <IntelliTasksWorkspace initialData={data} view="dashboard" />;
+  return <IntelliTasksWorkspace initialData={data} view="calendar" />;
 }

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TaskFlow - Inbox</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 20px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#00344e",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface": "#e4e1ee",
+                        "on-primary-container": "#dad7ff",
+                        "on-primary-fixed": "#0f0069",
+                        "surface-container": "#1f1f28",
+                        "on-error": "#690005",
+                        "surface-tint": "#c3c0ff",
+                        "on-tertiary-fixed-variant": "#7b2f00",
+                        "on-tertiary-fixed": "#351000",
+                        "background": "#13121b",
+                        "surface-variant": "#35343e",
+                        "surface-container-highest": "#35343e",
+                        "surface-dim": "#13121b",
+                        "on-secondary-fixed-variant": "#004c6e",
+                        "on-tertiary-container": "#ffd2be",
+                        "surface-container-low": "#1b1b24",
+                        "secondary": "#89ceff",
+                        "on-primary-fixed-variant": "#3323cc",
+                        "surface-container-lowest": "#0e0d16",
+                        "surface-bright": "#393842",
+                        "primary-fixed": "#e2dfff",
+                        "on-background": "#e4e1ee",
+                        "secondary-container": "#00a2e6",
+                        "inverse-primary": "#4d44e3",
+                        "secondary-fixed": "#c9e6ff",
+                        "surface": "#13121b",
+                        "on-tertiary": "#571f00",
+                        "on-primary": "#1d00a5",
+                        "surface-container-high": "#2a2933",
+                        "inverse-on-surface": "#302f39",
+                        "on-secondary": "#00344d",
+                        "on-secondary-fixed": "#001e2f",
+                        "outline-variant": "#464555",
+                        "tertiary": "#ffb695",
+                        "tertiary-fixed-dim": "#ffb695",
+                        "on-surface-variant": "#c7c4d8",
+                        "primary": "#c3c0ff",
+                        "primary-container": "#4f46e5",
+                        "tertiary-container": "#a44100",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-error-container": "#ffdad6",
+                        "outline": "#918fa1",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "secondary-fixed-dim": "#89ceff",
+                        "inverse-surface": "#e4e1ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "margin-desktop": "32px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter", "sans-serif"],
+                        "label-xs": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-md": ["Inter", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display": ["Inter", "sans-serif"],
+                        "headline-md": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "label-xs": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-desktop h-16 bg-surface dark:bg-surface border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-on-surface">TaskFlow</span>
+<!-- Search Bar (on_left) -->
+<div class="relative hidden md:flex items-center">
+<span class="material-symbols-outlined absolute left-sm text-on-surface-variant text-body-md" style="font-size: 16px;">search</span>
+<input class="pl-xl pr-sm py-xs bg-surface-container-high border-none rounded focus:ring-1 focus:ring-primary text-body-sm font-body-sm text-on-surface placeholder-on-surface-variant w-64 outline-none transition-shadow" placeholder="Search tasks..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors cursor-pointer active:opacity-80 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors cursor-pointer active:opacity-80 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50 transition-colors cursor-pointer active:opacity-80 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-sm cursor-pointer border border-outline-variant">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="A detailed close-up portrait of a professional individual in a modern office setting. Soft, natural lighting highlights their features, creating a warm and approachable mood. The background is a slightly blurred, high-tech workspace with subtle cool blue and slate grey tones, perfectly complementing a modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzBN6pYcGoqR5u3iSzUhDZqVty-e5COJQ15KX338dAJ8LbEqUB3CgDElLcZA7yGXFXE5FX796m39YOFtzb-dTjc-LSDZF_0n2Tc34zi7Yws5XtG7WddP8gaaZmb6A0MDzNdfZls6UEvm7yyqYa6-PFck0uwJUaRAqM0jmw92EYne1Nr-xsjPJIOXB4_zkPwIzxBjhaXKl1Q_zQ4Yi0AnHVyfu7RY3d3pxpTnx09Etjp48Whki0eCTMq-V-6VL8CNdaRU6xWRa4OLU"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 pt-20 pb-8 px-4 flex flex-col z-40 bg-surface-container-low dark:bg-surface-container-low border-r border-outline-variant dark:border-outline-variant">
+<div class="mb-lg px-3">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-6 h-6 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-label-xs">TF</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Workspace</span>
+</div>
+</div>
+<button class="mb-lg mx-3 flex items-center justify-center gap-sm bg-primary-container text-on-primary-container hover:opacity-90 font-label-md text-label-md py-sm px-md rounded cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+            New Task
+        </button>
+<div class="flex-1 overflow-y-auto space-y-xs font-label-md text-label-md">
+<!-- Active Tab: Inbox -->
+<div class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-3 py-2 border-l-4 border-primary cursor-pointer active:scale-98">
+<span class="material-symbols-outlined" data-icon="inbox">inbox</span>
+                Inbox
+            </div>
+<!-- Inactive Tabs -->
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="today">today</span>
+                Today
+            </div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                Upcoming
+            </div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="folder">folder</span>
+                Projects
+            </div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+                Views
+            </div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="star">star</span>
+                Favorites
+            </div>
+</div>
+<div class="mt-auto pt-sm border-t border-outline-variant/50 space-y-xs font-label-md text-label-md">
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </div>
+<div class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg px-3 py-2 cursor-pointer active:scale-98 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+                Archived
+            </div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="ml-64 pt-16 p-xl">
+<!-- Header & Filters -->
+<div class="flex items-center justify-between mb-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Inbox</h1>
+<div class="flex items-center gap-sm">
+<button class="flex items-center gap-xs px-sm py-xs border border-outline-variant rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-xs px-sm py-xs border border-outline-variant rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" style="font-size: 16px;">sort</span>
+                    Sort
+                </button>
+</div>
+</div>
+<!-- Task Table -->
+<div class="bg-surface-container-low rounded-lg border border-outline-variant overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-highest">
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-8"></th>
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-1/2">Task Name</th>
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-32">Status</th>
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-24 text-center">Priority</th>
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-24 text-center">Assignee</th>
+<th class="py-sm px-md font-label-xs text-label-xs text-on-surface-variant w-32 text-right">Due Date</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Task Row 1 -->
+<tr class="group border-b border-outline-variant/50 hover:bg-surface-variant/30 transition-colors cursor-pointer">
+<td class="py-sm px-md">
+<input class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+</td>
+<td class="py-sm px-md font-medium group-hover:text-primary transition-colors">Design System Audit</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-secondary-container/20 text-secondary-fixed">
+                                In Progress
+                            </span>
+</td>
+<td class="py-sm px-md text-center text-error">
+<span class="material-symbols-outlined" data-weight="fill" style="font-size: 18px;">keyboard_double_arrow_up</span>
+</td>
+<td class="py-sm px-md flex justify-center">
+<div class="w-6 h-6 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Assignee" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a professional individual against a neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgm7tjEHxMq24EtwtYJVLenysqOVVO44JtSZmTZpiSN733saScDFTf9fVriauEYVt4uIAl-8Twz5KqfceTA5gdknUZ78pctc_4X1hkj33Y13X0zBjGlsJqpHZ_6eAhQb1Tfjy_dLwkE-V6wxgJueiHcbnaQjs1PXhmGRkudZl-zcZ_Cci9QRZdMQdTFUQQmBMxqzC8WATp42NdP_UUq8RBBdl7y2Zjr10BaBW84FY9fuIqajT0KOWvVVotUm2Kvf4qfWe7P2HTYp8"/>
+</div>
+</td>
+<td class="py-sm px-md text-right text-body-sm text-on-surface-variant">Today</td>
+</tr>
+<!-- Task Row 2 -->
+<tr class="group border-b border-outline-variant/50 hover:bg-surface-variant/30 transition-colors cursor-pointer">
+<td class="py-sm px-md">
+<input class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+</td>
+<td class="py-sm px-md font-medium group-hover:text-primary transition-colors">Implement Dark Mode Toggle</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border border-outline-variant text-on-surface-variant">
+                                To Do
+                            </span>
+</td>
+<td class="py-sm px-md text-center text-tertiary">
+<span class="material-symbols-outlined" style="font-size: 18px;">keyboard_arrow_up</span>
+</td>
+<td class="py-sm px-md flex justify-center">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-outline-variant border-dashed flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 14px;">person</span>
+</div>
+</td>
+<td class="py-sm px-md text-right text-body-sm text-on-surface-variant">Tomorrow</td>
+</tr>
+<!-- Task Row 3 -->
+<tr class="group border-b border-outline-variant/50 hover:bg-surface-variant/30 transition-colors cursor-pointer opacity-70">
+<td class="py-sm px-md">
+<input checked="" class="rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+</td>
+<td class="py-sm px-md font-medium line-through text-on-surface-variant">Setup Project Repository</td>
+<td class="py-sm px-md">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-surface-variant text-on-surface-variant">
+                                Done
+                            </span>
+</td>
+<td class="py-sm px-md text-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 18px;">remove</span>
+</td>
+<td class="py-sm px-md flex justify-center">
+<div class="w-6 h-6 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Assignee" class="w-full h-full object-cover" data-alt="A small, circular avatar portrait of a professional individual against a neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuByW2tTR4L0Y6iOwbj8besKsN7Nck1e4EFlPxfLU2TBvVlxs9cMxrdhzap2qyg3fynaOvslTvN-LMLDj-8cPSZCI9BhhSVFbnbkgb9S-fgVjInvseoNIVLScPWZG4WSXB-kx7csRVCFcN-19WAw_-Ojr1_DXgs8O8lojDL2C8r1NoKHACVukBdZ6IO3rYbtPs_qgMIPmY-3ycZq7M2OjhJdPogGjkYPX_aFD_NqI_1oiOhmLCceOjnhM3KH816an2u13Ihrn78mTI4"/>
+</div>
+</td>
+<td class="py-sm px-md text-right text-body-sm text-on-surface-variant">Oct 24</td>
+</tr>
+<!-- Add New Task Row -->
+<tr class="hover:bg-surface-variant/10 transition-colors">
+<td class="py-sm px-md text-center text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-size: 16px;">add</span>
+</td>
+<td class="py-sm px-md" colspan="5">
+<input class="w-full bg-transparent border-none outline-none text-body-md font-body-md text-on-surface placeholder-on-surface-variant focus:ring-0 p-0" placeholder="Add a task..." type="text"/>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</main>
+</body></html>

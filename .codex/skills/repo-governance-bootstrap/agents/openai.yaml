@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Governance Bootstrap"
+  short_description: "Bootstrap local governance skills"
+  default_prompt: "Use $repo-governance-bootstrap to create a local governance skill and AGENTS guidance for this repository."

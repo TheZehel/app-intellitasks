@@ -12,9 +12,9 @@
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #111827;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #13121b;
+  color: #e4e1ee;
+  font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
 button,
@@ -22,4 +22,14 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-card {
+  background: rgba(42, 41, 51, 0.72);
+  border: 1px solid rgba(70, 69, 85, 0.78);
 }
