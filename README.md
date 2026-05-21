@@ -21,6 +21,63 @@ Conceitos de POO aplicados:
 - Heranca: `Task` e `Category` herdam de `BaseEntity`.
 - Polimorfismo: a regra foi separada por camadas, permitindo trocar a implementacao de persistencia sem reescrever a tela.
 
+## Diagrama da arquitetura
+
+```mermaid
+flowchart LR
+  User["Usuario no navegador"]
+
+  subgraph NextApp["Aplicacao Next.js"]
+    Pages["App Router\napp/*.tsx"]
+    Components["Componentes React\nTaskDashboard, AuthNavbar,\nProfileSettings, UsersManagement"]
+    ClientApi["Cliente HTTP\nlib/client-api.ts"]
+    ApiRoutes["API Routes\napp/api/*"]
+  end
+
+  subgraph DomainLayer["Camada POO / MVC"]
+    Validation["Validacao de entrada\nlib/validation/*"]
+    Controllers["Controllers\nPrismaTaskController"]
+    Repositories["Repositories\nPrismaTaskRepository"]
+    Mappers["Mappers e DTOs\nlib/mappers/*\nlib/domain/types.ts"]
+    Domain["Entidades de dominio\nTask, Category, BaseEntity"]
+  end
+
+  subgraph DataLayer["Persistencia local"]
+    Prisma["Prisma Client\nlib/prisma.ts"]
+    SQLite["SQLite\nDATABASE_URL=file:./dev.db"]
+    Models["Models Prisma\nTask, Category, User, Session"]
+  end
+
+  subgraph JavaBackend["Backend Java MVC opcional"]
+    JavaHttp["Servidor HTTP Java 17\nhttp://localhost:8080"]
+    JavaControllers["Controllers REST\nAuth, Task, Category,\nProfile, User"]
+    JavaServices["Services\nregras de negocio"]
+    JavaRepositories["Repositories\npersistencia em memoria"]
+    JavaModels["Models e DTOs"]
+  end
+
+  User --> Pages
+  Pages --> Components
+  Components --> ClientApi
+
+  ClientApi -->|"sem NEXT_PUBLIC_API_BASE_URL"| ApiRoutes
+  ClientApi -.->|"com NEXT_PUBLIC_API_BASE_URL"| JavaHttp
+
+  ApiRoutes --> Validation
+  ApiRoutes --> Controllers
+  Controllers --> Repositories
+  Controllers --> Mappers
+  Controllers --> Domain
+  Repositories --> Prisma
+  Prisma --> Models
+  Models --> SQLite
+
+  JavaHttp --> JavaControllers
+  JavaControllers --> JavaServices
+  JavaServices --> JavaRepositories
+  JavaServices --> JavaModels
+```
+
 ## Funcionalidades
 
 - Criar tarefas
